@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from time import sleep
 from datetime import datetime
-import os, requests, json
+import os, requests, json, logging
 
 school_num = os.getenv('SCHOOL_NUM')
 headers = {
@@ -53,5 +53,4 @@ data['values']['_widget_1597486309838']['data'][0]['_widget_1646814426533']['dat
 
 ret = requests.post('https://www.jiandaoyun.com/_/data/create', headers=headers, data=json.dumps(data))
 if '今日健康日报数据提交成功' not in ret.text:
-    print(json.loads(ret.text)['msg'])
-    exit(1)
+    logging.error(json.loads(ret.text)['msg'])
