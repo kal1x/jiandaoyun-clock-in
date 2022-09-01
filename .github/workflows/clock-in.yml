@@ -1,0 +1,25 @@
+name: JianDaoYun Clock in
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  clock-in:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+      - run: sudo apt purge google-chrome-stable
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Clock in
+        env:
+          SCHOOL_NUM: ${{ secrets.SCHOOL_NUM }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          FORM_DATA: ${{ secrets.FORM_DATA }}
+        run: python clock-in.py
